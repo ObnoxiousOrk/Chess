@@ -1,0 +1,3 @@
+Should taking and moving be checked in the same if statement, for efficiency:
+  would it be faster or slower on average to check individually if the piece can move and if it can take?
+  for now, its one if, but it could change.

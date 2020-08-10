@@ -16,8 +16,9 @@ class KNIGHT():
         self.aPos = pos
         self.vColour = colour
 
-    def move(self, to, board): #--Move takes in the positon the piece shoudl move to, and the current state of the board, then checks if the piece can move, and finally, moves the piece
-        if ([self.aPos[0] - 2, self.aPos[1] - 1] == to or [self.aPos[0] - 2, self.aPos[1] + 1] == to or [self.aPos[0] - 1, self.aPos[1] + 2] == to or [self.aPos[0] + 1, self.aPos[1] - 2] == to or [self.aPos[0] + 1, self.aPos[1] - 2] == to or [self.aPos[0] + 1, self.aPos[1] + 2] == to or [self.aPos[0] + 2, self.aPos[1] - 1] == to or [self.aPos[0] + 2, self.aPos[1] + 1] == to) and board[to[0]][to[1]] == 0: #--Checks all knights path moves, and ensures the destiantion is one of them, and it is clear
+    def move(self, to, board): #--Move takes in the positon the piece shoudl move to, and the current state of the board, then checks if the piece can move, and finally, moves the piece, also handles taking
+    #==Movement==#
+        if ([self.aPos[0] - 2, self.aPos[1] - 1] == to or [self.aPos[0] - 2, self.aPos[1] + 1] == to or [self.aPos[0] - 1, self.aPos[1] + 2] == to or [self.aPos[0] + 1, self.aPos[1] - 2] == to or [self.aPos[0] + 1, self.aPos[1] - 2] == to or [self.aPos[0] + 1, self.aPos[1] + 2] == to or [self.aPos[0] + 2, self.aPos[1] - 1] == to or [self.aPos[0] + 2, self.aPos[1] + 1] == to) and (board[to[0]][to[1]] == 0 or (board[to[0]][to[1]].vColour != self.vColour)): #--Checks all knights path moves, and ensures the destiantion is one of them, and it is clear or contains a piece of the opposite colour
             board[self.aPos[0]][self.aPos[1]] = 0 #--Sets the pieces current position to be empty
             board[to[0]][to[1]] = KNIGHT([to[0], to[1]], self.vColour) #--Sets the destination to a knight with the correct colour
         else:
@@ -48,7 +49,7 @@ class BOARD():
     def makeBoard(self):
         aBoard = [[0, 0, 0, 0, 0, 0, 0, 0],
         [0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0],
+        [KNIGHT([2, 0], "White"), 0, 0, 0, 0, 0, 0, 0],
         [0, 0, 0, 0, 0, 0, 0, 0],
         [0, 0, 0, 0, 0, 0, 0, 0],
         [0, 0, 0, 0, 0, 0, 0, 0],
@@ -112,6 +113,6 @@ class BOARD():
 chess = BOARD()
 chess.displayBoard()
 
-chess.move([0, 1], [2, 0])
+chess.move([2, 0], [0, 1])
 
 chess.displayBoard()

@@ -6,6 +6,45 @@ class PAWN():
         self.aPos = pos
         self.vColour = colour
 
+    def move(self, to, board):
+    #==Movement==#
+        if self.vColour == "White":
+            if [self.aPos[0] - 1, self.aPos[1]] == to and board[to[0]][to[1]] == 0 and self.vColour == "White" or ([self.aPos[0] - 2, self.aPos[1]] == to and board[to[0]][to[1]] == 0 and self.aPos[0] == 6 and board[self.aPos[0] - 1][self.aPos[1]] == 0): #--If the pawn is white, only let it move up one space
+                board[self.aPos[0]][self.aPos[1]] = 0
+                board[to[0]][to[1]] = PAWN([to[0], to[1]], self.vColour)
+
+            elif [self.aPos[0] - 1, self.aPos[1] + 1] == to and board[to[0]][to[1]] != 0 or [self.aPos[0] - 1, self.aPos[1] - 1] == to and board[to[0]][to[1]] != 0:
+                if board[to[0]][to[1]].vColour != self.vColour:
+                    board[self.aPos[0]][self.aPos[1]] = 0
+                    board[to[0]][to[1]] = PAWN([to[0], to[1]], self.vColour)
+
+                else:
+                    print("Invalid move\n")
+
+            else:
+                print("Invalid move\n")
+
+        elif self.vColour == "Black":
+            if [self.aPos[0] + 1, self.aPos[1]] == to and board[to[0]][to[1]] == 0 and self.vColour == "Black" or ([self.aPos[0] + 2, self.aPos[1]] == to and board[to[0]][to[1]] == 0 and self.aPos[0] == 1 and board[self.aPos[0] + 1][self.aPos[1]] == 0): #--If the pawn is black, only let it move down one space or 2 if its the pieces first move
+                board[self.aPos[0]][self.aPos[1]] = 0
+                board[to[0]][to[1]] = PAWN([to[0], to[1]], self.vColour)
+
+            elif [self.aPos[0] + 1, self.aPos[1] + 1] == to and board[to[0]][to[1]] != 0 or [self.aPos[0] + 1, self.aPos[1] - 1] == to and board[to[0]][to[1]] != 0:
+                if board[to[0]][to[1]].vColour != self.vColour:
+                    board[self.aPos[0]][self.aPos[1]] = 0
+                    board[to[0]][to[1]] = PAWN([to[0], to[1]], self.vColour)
+
+                else:
+                    print("Invalid move\n")
+
+            else:
+                print("Invalid move\n")
+
+        else:
+            print("Invalid move\n")
+
+        return board
+
 class ROOK():
     def __init__(self, pos, colour):
         self.aPos = pos
@@ -25,7 +64,6 @@ class KNIGHT():
             print("Invalid move\n")
 
         return board
-
 
 class BISHOP():
     def __init__(self, pos, colour):
@@ -49,7 +87,7 @@ class BOARD():
     def makeBoard(self):
         aBoard = [[0, 0, 0, 0, 0, 0, 0, 0],
         [0, 0, 0, 0, 0, 0, 0, 0],
-        [KNIGHT([2, 0], "White"), 0, 0, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0],
         [0, 0, 0, 0, 0, 0, 0, 0],
         [0, 0, 0, 0, 0, 0, 0, 0],
         [0, 0, 0, 0, 0, 0, 0, 0],
@@ -113,6 +151,7 @@ class BOARD():
 chess = BOARD()
 chess.displayBoard()
 
-chess.move([2, 0], [0, 1])
+chess.move([6, 0], [4, 0])
+chess.move([4, 0], [2, 0])
 
 chess.displayBoard()

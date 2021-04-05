@@ -151,7 +151,14 @@ class BOARD():
 chess = BOARD()
 chess.displayBoard()
 
-chess.move([6, 0], [4, 0])
-chess.move([4, 0], [2, 0])
+chess.move([7, 1], [5, 0])
+
+chess.displayBoard()
+
+chess.move([1, 1], [3, 1])
+
+chess.displayBoard()
+
+chess.move([5, 0], [3, 1])
 
 chess.displayBoard()

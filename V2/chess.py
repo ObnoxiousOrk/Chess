@@ -9,7 +9,7 @@ class PAWN():
     def move(self, to, board):
     #==Movement==#
         if self.vColour == "White":
-            if [self.aPos[0] - 1, self.aPos[1]] == to and board[to[0]][to[1]] == 0 and self.vColour == "White" or ([self.aPos[0] - 2, self.aPos[1]] == to and board[to[0]][to[1]] == 0 and self.aPos[0] == 6 and board[self.aPos[0] - 1][self.aPos[1]] == 0): #--If the pawn is white, only let it move up one space
+            if [self.aPos[0] - 1, self.aPos[1]] == to and board[to[0]][to[1]] == 0 or ([self.aPos[0] - 2, self.aPos[1]] == to and board[to[0]][to[1]] == 0 and self.aPos[0] == 6 and board[self.aPos[0] - 1][self.aPos[1]] == 0): #--If the pawn is white, only let it move up one space
                 board[self.aPos[0]][self.aPos[1]] = 0
                 board[to[0]][to[1]] = PAWN([to[0], to[1]], self.vColour)
 
@@ -49,6 +49,13 @@ class ROOK():
     def __init__(self, pos, colour):
         self.aPos = pos
         self.vColour = colour
+
+    def move(self, to, board):
+        if self.vColour == "White":
+            if self.aPos[0] > to[0]: #--If the destination is above the start
+                if self.aPos[1] == to[1]: #--If the current pos and the destination are in in the same collumn
+                    
+
 
 class KNIGHT():
     def __init__(self, pos, colour):

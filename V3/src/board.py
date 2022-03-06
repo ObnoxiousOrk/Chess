@@ -2,6 +2,15 @@ import pieces
 from pieces import Bishop, Empty, King, Knight, Pawn, Piece, Queen, Rook
 
 
+class CoordError(Exception):
+    def __init__(self, message: str, coord: str):
+        self.message = message
+        self.coord = coord
+
+    def __str__(self):
+        return f"{self.message}: {self.coord}"
+
+
 class Board:
     def __init__(self):
         self.board: list[list[Piece]] = Board.makeBoard()
@@ -33,6 +42,10 @@ class Board:
     def algToCoord(alg: str) -> tuple[int, int]:
         """Convert algebraic notation to coordinate"""
         alg = alg.lower()
+
+        if alg[0] not in list("abcdefgh") or alg[1] not in list("12345678"):
+            raise CoordError("Invalid algebraic notation", alg)
+
         return (ord(alg[0]) - 97, 8 - int(alg[1]))
 
     @staticmethod

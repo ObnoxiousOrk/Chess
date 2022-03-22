@@ -1,4 +1,4 @@
-import numpy as np
+# import numpy as np
 
 """
 Each piece has a colour and a position

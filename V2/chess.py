@@ -51,10 +51,10 @@ class ROOK():
         self.vColour = colour
 
     def move(self, to, board):
-        if self.vColour == "White":
-            if self.aPos[0] > to[0]: #--If the destination is above the start
-                if self.aPos[1] == to[1]: #--If the current pos and the destination are in in the same collumn
-                    
+        # if self.vColour == "White":
+        #     if self.aPos[0] > to[0]: #--If the destination is above the start
+        #         if self.aPos[1] == to[1]: #--If the current pos and the destination are in in the same collumn
+        pass
 
 
 class KNIGHT():

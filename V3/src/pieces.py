@@ -185,6 +185,30 @@ class Queen(Piece):
         if board[newPos[0]][newPos[1]].isWhite == self.isWhite:
             raise PieceMoveError(message="Cannot move to space occupied by own piece")
 
+        rookQueen = Rook(self.pos, self.pieceSymbol, self.isWhite)
+        bishopQueen = Bishop(self.pos, self.pieceSymbol, self.isWhite)
+
+        try:
+            rookQueen.validMove(newPos, board)
+            bishopQueen.validMove(newPos, board)
+        except PieceMoveError as e:
+            if e.message == "Bishop must move in a diagonal line":
+                try:
+                    rookQueen.validMove(newPos, board)
+                except PieceMoveError as e2:
+                    raise PieceMoveError(
+                        message="Queen must move in a straight line or a diagonal line"
+                    ) from e
+            elif e.message == "Rook must move in a straight line":
+                try:
+                    bishopQueen.validMove(newPos, board)
+                except PieceMoveError as e2:
+                    raise PieceMoveError(
+                        message="Queen must move in a straight line or a diagonal line"
+                    ) from e
+
+        return True
+
 
 class King(Piece):
     def validMove(self, newPos: tuple[int, int], board: list[list[Piece]]) -> bool:

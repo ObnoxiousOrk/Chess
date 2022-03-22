@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 from abc import ABC, abstractmethod
-from operator import sub
 
 PAWN = "P"
 ROOK = "R"
@@ -10,6 +9,11 @@ BISHOP = "B"
 QUEEN = "Q"
 KING = "K"
 EMPTY = "x"
+
+
+def sign(x):
+    """Return 1 if x is positive, -1 if x is negative, 0 if x is 0"""
+    return 1 if x > 0 else -1 if x < 0 else 0
 
 
 class PieceMoveError(Exception):
@@ -113,7 +117,20 @@ class Rook(Piece):
 
 class Pawn(Piece):
     def validMove(self, newPos: tuple[int, int], board: list[list[Piece]]) -> bool:
-        NotImplemented
+        if self.pos == newPos:
+            raise PieceMoveError(message="Cannot move to same position")
+
+        if board[newPos[0]][newPos[1]].isWhite == self.isWhite:
+            raise PieceMoveError(message="Cannot move to space occupied by own piece")
+
+        # TODO:: Check pawn movement for 1 space
+
+        # TODO:: Check pawn movement for 2 spaces
+
+        # TODO:: En Passant (google it haha)
+
+        # TODO:: Taking
+        return False
 
 
 class Knight(Piece):
@@ -125,26 +142,57 @@ class Knight(Piece):
         if board[newPos[0]][newPos[1]].isWhite == self.isWhite:
             raise PieceMoveError(message="Cannot move to space occupied by own piece")
 
-        if tuple(map(lambda x, y: abs(x - y), self.pos, newPos)) in [(2, 1), (1, 2)]:
-            return True
-
-        else:
+        if tuple(map(lambda x, y: abs(x - y), self.pos, newPos)) not in [
+            (2, 1),
+            (1, 2),
+        ]:
             raise PieceMoveError(message="Knight must move in L shape")
+
+        return True
 
 
 class Bishop(Piece):
     def validMove(self, newPos: tuple[int, int], board: list[list[Piece]]) -> bool:
-        NotImplemented
+        if self.pos == newPos:
+            raise PieceMoveError(message="Cannot move to same position")
+
+        if board[newPos[0]][newPos[1]].isWhite == self.isWhite:
+            raise PieceMoveError(message="Cannot move to space occupied by own piece")
+
+        if abs(self.pos[0] - newPos[0]) != abs(self.pos[1] - newPos[1]):
+            raise PieceMoveError(message="Bishop must move in a diagonal line")
+
+        # -- Check if there are any pieces in the way in a diagonal line from start pos to end pos
+        distStartEnd = self.pos[0] - newPos[0]
+
+        dirX = sign(self.pos[0] - newPos[0])
+        dirY = sign(self.pos[1] - newPos[1])
+
+        for o in range(1, abs(distStartEnd)):
+            if not isinstance(
+                board[self.pos[0] - o * dirX][self.pos[1] - o * dirY], Empty
+            ):
+                raise PieceMoveError("Cannot move through other pieces")
+
+        return True
 
 
 class Queen(Piece):
     def validMove(self, newPos: tuple[int, int], board: list[list[Piece]]) -> bool:
-        NotImplemented
+        if self.pos == newPos:
+            raise PieceMoveError(message="Cannot move to same position")
+
+        if board[newPos[0]][newPos[1]].isWhite == self.isWhite:
+            raise PieceMoveError(message="Cannot move to space occupied by own piece")
 
 
 class King(Piece):
     def validMove(self, newPos: tuple[int, int], board: list[list[Piece]]) -> bool:
-        NotImplemented
+        if self.pos == newPos:
+            raise PieceMoveError(message="Cannot move to same position")
+
+        if board[newPos[0]][newPos[1]].isWhite == self.isWhite:
+            raise PieceMoveError(message="Cannot move to space occupied by own piece")
 
 
 class Empty(Piece):
